@@ -1,0 +1,26 @@
+cmake_minimum_required(VERSION 3.14)
+project(MyRaylibGame C)
+
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
+# Point CMake directly to your local Raylib installation
+set(RAYLIB_PATH "C:/Raylib" CACHE PATH "Path to Raylib")
+set(EXTERNAL_PATH "${CMAKE_CURRENT_SOURCE_DIR}/external" CACHE PATH "Path to external header-only library")
+
+# Include Raylib, Nuklear, and raylib-nuklear header paths
+include_directories(
+    "${RAYLIB_PATH}/include"
+    "${EXTERNAL_PATH}/Nuklear-master"
+    "${EXTERNAL_PATH}"
+)
+link_directories("${RAYLIB_PATH}/lib")
+
+# Add main application logic and the Nuklear/Raylib implementation file
+add_executable(${PROJECT_NAME} 
+    src/main.c
+    src/nuklear_impl.c
+)
+
+# Link local static Raylib and required Windows system libraries
+target_link_libraries(${PROJECT_NAME} PRIVATE raylib opengl32 gdi32 winmm)
